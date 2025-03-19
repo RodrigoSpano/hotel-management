@@ -1,12 +1,16 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/rodrigospano/hotel/internal/routes"
+	"github.com/subosito/gotenv"
 )
 
 func main() {
+	gotenv.Load("../../.env")
 	app := fiber.New()
 	micro := fiber.New()
 
@@ -21,5 +25,5 @@ func main() {
 	// routes
 	routes.RoomsRouter(micro.Group("/rooms"))
 
-	app.Listen(":4000")
+	app.Listen(os.Getenv("PORT"))
 }
