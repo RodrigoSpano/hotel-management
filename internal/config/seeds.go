@@ -17,9 +17,11 @@ func RoomsSeed(db *gorm.DB, count int) error {
 			Description:     faker.Paragraph(),
 			Beds:            rand.Intn(3),
 		}
-		if err := db.Save(&room); err != nil {
+		if result := db.Save(&room); result.Error != nil {
+			fmt.Println(result.Error.Error())
 			fmt.Printf("Error while seeding rooms: %s", room.Room_name)
 		}
 	}
+	fmt.Println("Rooms table seeded successfully with fake data")
 	return nil
 }

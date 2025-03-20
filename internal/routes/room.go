@@ -2,12 +2,14 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/rodrigospano/hotel/internal/handlers"
 )
 
-func RoomsRouter(app fiber.Router) {
+func RoomsRouter(api *fiber.App) {
+	roomsGroup := api.Group("/rooms")
 
-	// app.Get("/", func(c *fiber.Ctx) error {
-
-	// })
-
+	roomsGroup.Get("/", handlers.GetRooms)
+	roomsGroup.Get("/:id", handlers.GetRoom)
+	roomsGroup.Post("/", handlers.AddRoom)
+	roomsGroup.Delete("/:id", handlers.DeleteRoom)
 }

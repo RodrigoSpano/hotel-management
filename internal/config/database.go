@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var Database *gorm.DB
+var DB *gorm.DB
 
 func ConnectDB() error {
 	var err error
@@ -23,18 +23,18 @@ func ConnectDB() error {
 
 	dbURI := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", db_user, db_password, db_host, db_port, db_name)
 
-	Database, err := gorm.Open(postgres.Open(dbURI), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dbURI), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println("Database connected")
-	if err := Database.AutoMigrate(&data.Room{}); err != nil {
+	if err := DB.AutoMigrate(&data.Room{}); err != nil {
 		panic(err)
 	}
 
 	// uncomment only if need seeds to be executed
-	// RoomsSeed(Database, 40)
+	// RoomsSeed(DB, 40)
 	// uncomment to drop a table
-	// DropDbTable(Database, "rooms")
+	// DropDbTable(DB, "rooms")
 	return nil
 }
