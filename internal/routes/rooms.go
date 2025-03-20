@@ -5,8 +5,8 @@ import (
 )
 
 func RoomsRouter(app fiber.Router) {
+
 	// app.Get("/", func(c *fiber.Ctx) error {
-	// 	// rooms := []models.Room{}
 
 	// })
 

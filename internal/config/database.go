@@ -1,27 +1,35 @@
 package database
 
 import (
-	"log"
+	"fmt"
 	"os"
 
-	"gorm.io/driver/sqlite"
+	"github.com/rodrigospano/hotel/internal/data"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
-
-	"github.com/rodrigospano/hotel/internal/types"
 )
 
-func ConnectDB() *gorm.DB {
-	DB, err := gorm.Open(sqlite.Open("hotel.db"), &gorm.Config{})
+var Database *gorm.DB
+
+func ConnectDB() error {
+	var err error
+	var (
+		db_user     = os.Getenv("DB_USER")
+		db_password = os.Getenv("DB_PASSWORD")
+		db_host     = os.Getenv("DB_HOST")
+		db_port     = os.Getenv("DB_PORT")
+		db_name     = os.Getenv("DB_NAME")
+	)
+
+	dbURI := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", db_user, db_password, db_host, db_port, db_name)
+
+	Database, err := gorm.Open(postgres.Open(dbURI), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Failed to connect to the Database! \n", err.Error())
-		os.Exit(1)
+		panic(err)
 	}
-
-	DB.Logger = logger.Default.LogMode(logger.Info)
-	DB.AutoMigrate(&types.Room{})
-
-	return DB
+	fmt.Println("Database connected")
+	if err := Database.AutoMigrate(&data.Room{}); err != nil {
+		panic(err)
+	}
+	return nil
 }
-
-var DB = *ConnectDB()
