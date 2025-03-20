@@ -4,6 +4,8 @@ go 1.24.1
 
 require (
 	github.com/andybalholm/brotli v1.1.0 // indirect
+	github.com/bxcodec/faker/v4 v4.0.0-beta.3 // indirect
+	github.com/go-faker/faker/v4 v4.6.0 // indirect
 	github.com/gofiber/fiber/v2 v2.52.6 // indirect
 	github.com/gofiber/storage/mongodb v1.3.9 // indirect
 	github.com/gofiber/storage/sqlite3/v2 v2.1.1 // indirect

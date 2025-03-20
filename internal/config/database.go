@@ -31,5 +31,10 @@ func ConnectDB() error {
 	if err := Database.AutoMigrate(&data.Room{}); err != nil {
 		panic(err)
 	}
+
+	// uncomment only if need seeds to be executed
+	// RoomsSeed(Database, 40)
+	// uncomment to drop a table
+	// DropDbTable(Database, "rooms")
 	return nil
 }
