@@ -1,0 +1,8 @@
+DB_PASSWORD=<db password>
+DB_USER=root
+DB_NAME=<db name>
+DB_HOST=<db host>
+DB_PORT=<db port>
+
+PORT=":4000"
+CLIENT_URL="http://localhost:3000"

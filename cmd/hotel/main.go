@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	database "github.com/rodrigospano/hotel/internal/config"
 	"github.com/rodrigospano/hotel/internal/routes"
 	"github.com/subosito/gotenv"
 )
@@ -14,16 +15,20 @@ func main() {
 	app := fiber.New()
 	micro := fiber.New()
 
-	app.Mount("/api/v1", micro)
+	// db initialization
+	database.ConnectDB()
+
+	client_url := os.Getenv("CLIENT_URL")
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:3000",
+		AllowOrigins:     client_url,
 		AllowHeaders:     "Origin, Content-Type, Accept",
 		AllowMethods:     "GET, POST, PATCH, DELETE",
 		AllowCredentials: true,
 	}))
 
 	// routes
-	routes.RoomsRouter(micro.Group("/rooms"))
+	app.Mount("/api/v1", micro)
+	routes.InitializeRoutes(micro)
 
 	app.Listen(os.Getenv("PORT"))
 }
