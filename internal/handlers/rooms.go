@@ -24,7 +24,7 @@ func GetRoom(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var room data.Room
 
-	result := database.DB.Find(&room, id)
+	result := database.DB.Where("id = ?", id).First(&room)
 	if result.Error != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"Error": result.Error.Error()})
 	}
