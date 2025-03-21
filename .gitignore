@@ -1,2 +1,4 @@
 .env*
 **/**/tmp
+postgres_data
+tmp
