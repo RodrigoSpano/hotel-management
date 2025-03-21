@@ -13,7 +13,7 @@ func GetRooms(c *fiber.Ctx) error {
 	result := database.DB.Find(&rooms)
 	if result.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": result.Error.Error(),
+			"Error": result.Error.Error(),
 		})
 	}
 	return c.Status(fiber.StatusOK).JSON(rooms)
@@ -37,12 +37,26 @@ func AddRoom(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"Error": err.Error()})
 	}
 	// todo => add validation if room with that name already exists
-	result := database.DB.Create(room)
+	result := database.DB.Create(&room)
 	fmt.Print(result)
 	if result.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"Error": result.Error.Error()})
 	}
 	return c.Status(fiber.StatusCreated).JSON(&room)
+}
+
+func UpdateRoom(c *fiber.Ctx) error {
+	id := c.Params("id")
+	room := new(data.Room) // how body should be > types.updateroombody
+	if err := c.BodyParser(room); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"Error": err.Error()})
+	}
+	// todo => verification if exists
+	result := database.DB.Where("id = ?", id).Updates(&room)
+	if result.Error != nil {
+		c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"Error": result.Error.Error()})
+	}
+	return c.Status(fiber.StatusAccepted).JSON(room)
 }
 
 func DeleteRoom(c *fiber.Ctx) error {
