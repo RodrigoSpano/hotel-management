@@ -7,5 +7,5 @@ import (
 func InitializeRoutes(api *fiber.App) {
 	// room routes /////////
 	RoomsRouter(api)
-
+	HotelAccountRouter(api)
 }

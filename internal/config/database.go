@@ -28,7 +28,7 @@ func ConnectDB() error {
 		panic(err)
 	}
 	fmt.Println("Database connected")
-	if err := DB.AutoMigrate(&data.Room{}); err != nil {
+	if err := DB.AutoMigrate(&data.Room{}, &data.HotelAccount{}); err != nil {
 		panic(err)
 	}
 
