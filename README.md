@@ -1,4 +1,4 @@
-## Structure
+## app Structure
 - cmd > main file
 - internal > all internal development, such as handlers, types, db, etc
     - data > interaction with database stuff and db models (basically all related with db)
